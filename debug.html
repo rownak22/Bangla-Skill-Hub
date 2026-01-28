@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ডিবাগ টুল - Bangla Skill Hub</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f5f7fa; }
+        .debug-container { max-width: 800px; margin: 0 auto; }
+        .debug-card { background: white; padding: 25px; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .debug-title { color: #2C3E50; margin-bottom: 20px; border-bottom: 2px solid #2E86C1; padding-bottom: 10px; }
+        .debug-btn { background: #2E86C1; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer; margin: 5px; font-size: 1rem; }
+        .debug-btn:hover { background: #2573a7; }
+        .debug-btn.danger { background: #E74C3C; }
+        .debug-btn.success { background: #27AE60; }
+        .debug-info { background: #F8F9FA; padding: 15px; border-radius: 5px; margin-top: 15px; font-family: monospace; white-space: pre-wrap; }
+    </style>
+</head>
+<body>
+    <div class="debug-container">
+        <h1>Bangla Skill Hub - ডিবাগ টুল</h1>
+        
+        <!-- লোকালস্টোরেজ ডিবাগ -->
+        <div class="debug-card">
+            <h2 class="debug-title">১. লোকালস্টোরেজ চেক</h2>
+            <button class="debug-btn" onclick="checkLocalStorage()">লোকালস্টোরেজ চেক করুন</button>
+            <button class="debug-btn danger" onclick="clearLocalStorage()">লোকালস্টোরেজ ক্লিয়ার করুন</button>
+            <div id="localStorageInfo" class="debug-info"></div>
+        </div>
+        
+        <!-- ডেমো ডেটা তৈরি -->
+        <div class="debug-card">
+            <h2 class="debug-title">২. ডেমো ডেটা তৈরি</h2>
+            <button class="debug-btn success" onclick="createDemoData()">ডেমো ডেটা তৈরি করুন</button>
+            <button class="debug-btn" onclick="createDemoUser()">ডেমো ইউজার তৈরি করুন</button>
+            <button class="debug-btn" onclick="createDemoCourses()">ডেমো কোর্স তৈরি করুন</button>
+        </div>
+        
+        <!-- পেজ টেস্ট -->
+        <div class="debug-card">
+            <h2 class="debug-title">৩. পেজ টেস্ট</h2>
+            <button class="debug-btn" onclick="window.open('signin.html', '_blank')">Sign In পেজ টেস্ট</button>
+            <button class="debug-btn" onclick="window.open('course-list.html', '_blank')">কোর্স লিস্ট টেস্ট</button>
+            <button class="debug-btn" onclick="window.open('dashboard.html', '_blank')">ড্যাশবোর্ড টেস্ট</button>
+        </div>
+        
+        <!-- ইউজার টেস্ট -->
+        <div class="debug-card">
+            <h2 class="debug-title">৪. ইউজার টেস্ট</h2>
+            <div id="userTestInfo" class="debug-info">
+                ইউজার টেস্ট তথ্য:
+                ইমেইল: demo@example.com
+                পাসওয়ার্ড: 123456
+            </div>
+            <button class="debug-btn" onclick="autoFillSignIn()">Sign In অটোফিল</button>
+            <button class="debug-btn" onclick="autoFillSignUp()">Sign Up অটোফিল</button>
+        </div>
+    </div>
+    
+    <script>
+        // লোকালস্টোরেজ চেক
+        function checkLocalStorage() {
+            let info = 'লোকালস্টোরেজ কন্টেন্ট:\n\n';
+            
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                const value = localStorage.getItem(key);
+                info += `${key}: ${value}\n\n`;
+            }
+            
+            document.getElementById('localStorageInfo').textContent = info || 'লোকালস্টোরেজ খালি';
+        }
+        
+        // লোকালস্টোরেজ ক্লিয়ার
+        function clearLocalStorage() {
+            if (confirm('আপনি কি সব ডেটা ডিলিট করতে চান?')) {
+                localStorage.clear();
+                alert('লোকালস্টোরেজ ক্লিয়ার করা হয়েছে!');
+                checkLocalStorage();
+            }
+        }
+        
+        // ডেমো ডেটা তৈরি
+        function createDemoData() {
+            // ডেমো ইউজার
+            const demoUser = {
+                name: "ডেমো ব্যবহারকারী",
+                email: "demo@example.com",
+                phone: "01712345678",
+                password: "123456",
+                age: "18-25",
+                education: "undergraduate",
+                interest: "web",
+                joinedAt: new Date().toISOString()
+            };
+            
+            // ডেমো কোর্স
+            const demoCourses = [
+                {
+                    id: 'javascript-mastery',
+                    name: 'জাভাস্ক্রিপ্ট মাস্টারি',
+                    category: 'web',
+                    price: 1999,
+                    originalPrice: 3999
+                },
+                {
+                    id: 'figma-design',
+                    name: 'Figma UI/UX ডিজাইন',
+                    category: 'design',
+                    price: 1499,
+                    originalPrice: 2999
+                }
+            ];
+            
+            // লোকালস্টোরেজে সেভ
+            localStorage.setItem('users', JSON.stringify([demoUser]));
+            localStorage.setItem('currentUser', JSON.stringify(demoUser));
+            localStorage.setItem('courses', JSON.stringify(demoCourses));
+            
+            alert('ডেমো ডেটা তৈরি করা হয়েছে!\nইমেইল: demo@example.com\nপাসওয়ার্ড: 123456');
+            checkLocalStorage();
+        }
+        
+        // অটোফিল ফাংশন
+        function autoFillSignIn() {
+            // Sign In পেজে পাঠান
+            const signInData = {
+                email: 'demo@example.com',
+                password: '123456'
+            };
+            
+            localStorage.setItem('autoFillData', JSON.stringify(signInData));
+            window.open('signin.html?autofill=true', '_blank');
+        }
+        
+        function autoFillSignUp() {
+            const signUpData = {
+                name: 'পরীক্ষা ব্যবহারকারী',
+                email: 'test@example.com',
+                phone: '01711111111',
+                password: '123456'
+            };
+            
+            localStorage.setItem('autoFillData', JSON.stringify(signUpData));
+            window.open('signup.html?autofill=true', '_blank');
+        }
+        
+        // প্রথমে লোকালস্টোরেজ চেক
+        window.onload = checkLocalStorage;
+    </script>
+</body>
+</html>
