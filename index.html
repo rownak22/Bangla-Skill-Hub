@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bangla Skill Hub - বাংলাদেশের #১ অনলাইন স্কিল ডেভেলপমেন্ট প্ল্যাটফর্ম</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* হোম পেজের জন্য অতিরিক্ত স্টাইল */
+        .hero-section {
+            background: linear-gradient(135deg, #2E86C1 0%, #27AE60 100%);
+            color: white;
+            padding: 150px 0 100px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 30px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        .btn-hero {
+            padding: 15px 35px;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .btn-primary-hero {
+            background: white;
+            color: #2E86C1;
+        }
+
+        .btn-outline-hero {
+            background: transparent;
+            border: 2px solid white;
+            color: white;
+        }
+
+        .stats-section {
+            background: white;
+            padding: 80px 0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            text-align: center;
+        }
+
+        .stat-box {
+            padding: 30px;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #2E86C1;
+            margin-bottom: 10px;
+        }
+
+        .stat-text {
+            color: #7F8C8D;
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- নেভিগেশন বার -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <div class="logo-text">Bangla<span>Skill</span>Hub</div>
+            </a>
+            
+            <div class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            
+            <ul class="nav-links">
+                <li><a href="#home">হোম</a></li>
+                <li><a href="course-list.html">কোর্সসমূহ</a></li>
+                <li><a href="#categories">ক্যাটেগরি</a></li>
+                <li><a href="#features">কেন আমরা</a></li>
+                <li><a href="login.html" class="login-link">লগ ইন</a></li>
+            </ul>
+            
+            <div class="auth-buttons">
+                <a href="login.html" class="btn btn-secondary">লগ ইন</a>
+                <a href="signup.html" class="btn btn-primary">সাইন আপ</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- হিরো সেকশন -->
+    <section id="home" class="hero-section">
+        <div class="hero-content">
+            <h1 class="hero-title">ডিজিটাল বাংলাদেশ গড়তে<br>নতুন স্কিল শিখুন</h1>
+            <p class="hero-subtitle">বাংলাদেশের সবচেয়ে বড় অনলাইন স্কিল ডেভেলপমেন্ট প্ল্যাটফর্ম। ফ্রিল্যান্সিং, রিমোট জব এবং ডিজিটাল ক্যারিয়ার গড়তে আজই যুক্ত হন</p>
+            
+            <div class="cta-buttons">
+                <a href="course-list.html" class="btn btn-hero btn-primary-hero">কোর্স এক্সপ্লোর করুন</a>
+                <a href="signup.html" class="btn btn-hero btn-outline-hero">ফ্রি ট্রায়াল শুরু করুন</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- স্ট্যাটস -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="stat-number">৫০,০০০+</div>
+                    <div class="stat-text">সক্রিয় শিক্ষার্থী</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">২০০+</div>
+                    <div class="stat-text">অভিজ্ঞ প্রশিক্ষক</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">৫০০+</div>
+                    <div class="stat-text">কোর্স</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">৯৫%</div>
+                    <div class="stat-text">সাফল্যের হার</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- কোর্স ক্যাটেগরি (আগের মত) -->
+    <!-- ফিচারস (আগের মত) -->
+    <!-- টেস্টিমোনিয়াল (আগের মত) -->
+    <!-- ফুটার (আগের মত) -->
+
+    <script src="script.js"></script>
+</body>
+</html>
