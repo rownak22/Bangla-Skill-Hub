@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>আমার ড্যাশবোর্ড - Bangla Skill Hub</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ড্যাশবোর্ড স্টাইল */
+        :root {
+            --sidebar-width: 250px;
+            --header-height: 70px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Hind Siliguri', sans-serif;
+            background: #f5f7fa;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* সাইডবার */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: #2C3E50;
+            color: white;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            transition: all 0.3s;
+            z-index: 100;
+        }
+
+        .sidebar-header {
+            padding: 25px 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .user-avatar {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(45deg, #2E86C1, #27AE60);
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+
+        .user-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .user-email {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 20px 0;
+        }
+
+        .menu-item {
+            margin-bottom: 5px;
+        }
+
+        .menu-link {
+            display: flex;
+            align-items: center;
+            padding: 15px 25px;
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .menu-link:hover,
+        .menu-link.active {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border-left: 4px solid #2E86C1;
+        }
+
+        .menu-icon {
+            width: 20px;
+            margin-right: 15px;
+            text-align: center;
+        }
+
+        .logout-btn {
+            display: flex;
+            align-items: center;
+            padding: 15px 25px;
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            background: none;
+            border: none;
+            width: 100%;
+            font-family: inherit;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: left;
+        }
+
+        .logout-btn:hover {
+            background: rgba(231, 76, 60, 0.2);
+            color: #E74C3C;
+            border-left: 4px solid #E74C3C;
+        }
+
+        /* মেইন কন্টেন্ট */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 20px;
+        }
+
+        .dashboard-header {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-title h1 {
+            color: #2C3E50;
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+
+        .header-title p {
+            color: #7F8C8D;
+        }
+
+        .enroll-btn {
+            background: linear-gradient(45deg, #2E86C1, #27AE60);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .enroll-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(46, 134, 193, 0.2);
+        }
+
+        /* আমার কোর্স */
+        .my-courses {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            color: #2C3E50;
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title i {
+            color: #2E86C1;
+        }
+
+        .courses-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+        }
+
+        .course-card {
+            border: 2px solid #E8E8E8;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            border-color: #2E86C1;
+        }
+
+        .course-header {
+            background: linear-gradient(45deg, #2E86C1, #27AE60);
+            color: white;
+            padding: 20px;
+            position: relative;
+        }
+
+        .course-category {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255,255,255,0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .course-title {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+
+        .course-body {
+            padding: 25px;
+        }
+
+        .course-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            color: #7F8C8D;
+            font-size: 0.9rem;
+        }
+
+        .course-meta span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .progress-section {
+            margin-bottom: 25px;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2C3E50;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: #E8E8E8;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(45deg, #2E86C1, #27AE60);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        .course-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #2E86C1;
+            background: white;
+            color: #2E86C1;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .action-btn.continue {
+            background: #2E86C1;
+            color: white;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        /* খালি স্টেট */
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        .empty-icon {
+            font-size: 4rem;
+            color: #BDC3C7;
+            margin-bottom: 20px;
+        }
+
+        .empty-state h3 {
+            color: #2C3E50;
+            margin-bottom: 10px;
+            font-size: 1.5rem;
+        }
+
+        .empty-state p {
+            color: #7F8C8D;
+            margin-bottom: 30px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* রেসপন্সিভ */
+        @media (max-width: 1024px) {
+            .courses-container {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                width: 280px;
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .dashboard-header {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+            
+            .courses-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .menu-toggle {
+                display: block;
+                position: fixed;
+                top: 20px;
+                left: 20px;
+                background: #2C3E50;
+                color: white;
+                border: none;
+                width: 40px;
+                height: 40px;
+                border-radius: 5px;
+                cursor: pointer;
+                z-index: 101;
+            }
+        }
+
+        .menu-toggle {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- সাইডবার -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="user-avatar" id="userAvatar">
+                <i class="fas fa-user"></i>
+            </div>
+            <div class="user-name" id="userName">আরিফ ইসলাম</div>
+            <div class="user-email" id="userEmail">arif@example.com</div>
+        </div>
+        
+        <ul class="sidebar-menu">
+            <li class="menu-item">
+                <a href="#dashboard" class="menu-link active">
+                    <span class="menu-icon"><i class="fas fa-tachometer-alt"></i></span>
+                    ড্যাশবোর্ড
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="#my-courses" class="menu-link">
+                    <span class="menu-icon"><i class="fas fa-book"></i></span>
+                    আমার কোর্সসমূহ
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="#certificates" class="menu-link">
+                    <span class="menu-icon"><i class="fas fa-certificate"></i></span>
+                    সার্টিফিকেট
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="#profile" class="menu-link">
+                    <span class="menu-icon"><i class="fas fa-user-cog"></i></span>
+                    প্রোফাইল সেটিংস
+                </a>
+            </li>
+            <li class="menu-item">
+                <button class="logout-btn" onclick="logout()">
+                    <span class="menu-icon"><i class="fas fa-sign-out-alt"></i></span>
+                    লগ আউট
+                </button>
+            </li>
+        </ul>
+    </aside>
+
+    <!-- মোবাইল মেনু টগল -->
+    <button class="menu-toggle" id="menuToggle" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- মেইন কন্টেন্ট -->
+    <main class="main-content">
+        <!-- হেডার -->
+        <div class="dashboard-header">
+            <div class="header-title">
+                <h1>আমার ড্যাশবোর্ড</h1>
+                <p>আপনার কেনা কোর্সসমূহ এখানে দেখানো হচ্ছে</p>
+            </div>
+            <a href="course-list.html" class="enroll-btn">
+                <i class="fas fa-plus"></i> নতুন কোর্স কিনুন
+            </a>
+        </div>
+
+        <!-- আমার কোর্স সেকশন -->
+        <section id="my-courses" class="my-courses">
+            <h2 class="section-title">
+                <i class="fas fa-book-open"></i> আমার কোর্সসমূহ
+            </h2>
+            
+            <div id="coursesContainer" class="courses-container">
+                <!-- এখানে কোর্স কার্ডগুলো জাভাস্ক্রিপ্ট দিয়ে যোগ হবে -->
+            </div>
+
+            <!-- খালি স্টেট -->
+            <div id="emptyState" class="empty-state" style="display: none;">
+                <div class="empty-icon">
+                    <i class="fas fa-book"></i>
+                </div>
+                <h3>কোনো কোর্স খুঁজে পাওয়া যায়নি</h3>
+                <p>আপনি এখনও কোনো কোর্স কিনেননি। নতুন কোর্স কিনে আপনার শেখার যাত্রা শুরু করুন।</p>
+                <a href="course-list.html" class="enroll-btn">
+                    <i class="fas fa-shopping-cart"></i> কোর্স ব্রাউজ করুন
+                </a>
+            </div>
+        </section>
+
+        <!-- কোর্স ডিটেলস মডাল -->
+        <div id="courseModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
+            <div style="background: white; border-radius: 15px; padding: 40px; max-width: 800px; width: 90%; max-height: 90vh; overflow-y: auto;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+                    <h2 id="modalCourseTitle" style="color: #2C3E50; font-size: 1.8rem;"></h2>
+                    <button onclick="closeCourseModal()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #7F8C8D;">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <div id="courseContent" style="line-height: 1.8;">
+                    <!-- এখানে কোর্স কন্টেন্ট লোড হবে -->
+                </div>
+                
+                <div style="margin-top: 30px; display: flex; gap: 15px; justify-content: flex-end;">
+                    <button onclick="closeCourseModal()" style="padding: 12px 25px; border: 2px solid #7F8C8D; background: white; color: #7F8C8D; border-radius: 5px; cursor: pointer;">
+                        বন্ধ করুন
+                    </button>
+                    <button id="startLearningBtn" onclick="startLearning()" style="padding: 12px 25px; background: #2E86C1; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                        <i class="fas fa-play"></i> শেখা শুরু করুন
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // ব্যবহারকারী তথ্য
+        let currentUser = JSON.parse(localStorage.getItem('currentUser')) || {
+            name: 'আরিফ ইসলাম',
+            email: 'arif@example.com',
+            avatar: 'A'
+        };
+
+        // আমার কোর্স লিস্ট
+        let myCourses = [];
+
+        // পেজ লোড
+        document.addEventListener('DOMContentLoaded', function() {
+            loadUserData();
+            loadMyCourses();
+            setupEventListeners();
+        });
+
+        // ব্যবহারকারী তথ্য লোড
+        function loadUserData() {
+            document.getElementById('userName').textContent = currentUser.name;
+            document.getElementById('userEmail').textContent = currentUser.email;
+            
+            // প্রথম অক্ষর দিয়ে অ্যাভাটার
+            const avatar = currentUser.name.charAt(0);
+            document.getElementById('userAvatar').innerHTML = `<i class="fas fa-user"></i>`;
+        }
+
+        // আমার কোর্স লোড
+        function loadMyCourses() {
+            // লোকালস্টোরেজ থেকে এনরোলমেন্ট লোড
+            const enrollments = JSON.parse(localStorage.getItem('enrollments') || '[]');
+            
+            if (enrollments.length === 0) {
+                // খালি স্টেট দেখান
+                document.getElementById('emptyState').style.display = 'block';
+                document.getElementById('coursesContainer').style.display = 'none';
+                return;
+            }
+            
+            // খালি স্টেট লুকান
+            document.getElementById('emptyState').style.display = 'none';
+            document.getElementById('coursesContainer').style.display = 'grid';
+            
+            // কোর্স কার্ড তৈরি
+            const container = document.getElementById('coursesContainer');
+            container.innerHTML = '';
+            
+            enrollments.forEach((enrollment, index) => {
+                const courseCard = createCourseCard(enrollment, index);
+                container.appendChild(courseCard);
+            });
+        }
+
+        // কোর্স কার্ড তৈরি
+        function createCourseCard(enrollment, index) {
+            const course = enrollment.course || 'কোর্স';
+            const progress = enrollment.progress || 0;
+            const enrolledAt = new Date(enrollment.enrolledAt).toLocaleDateString('bn-BD');
+            
+            // র্যান্ডম কালার (কোর্স টাইপ অনুযায়ী)
+            const colors = {
+                'জাভাস্ক্রিপ্ট': { bg: '#3498DB', text: 'ওয়েব ডেভেলপমেন্ট' },
+                'Figma': { bg: '#27AE60', text: 'গ্রাফিক ডিজাইন' },
+                'SEO': { bg: '#E74C3C', text: 'ডিজিটাল মার্কেটিং' },
+                'Python': { bg: '#F39C12', text: 'ডাটা সায়েন্স' },
+                'React': { bg: '#9B59B6', text: 'ওয়েব ডেভেলপমেন্ট' }
+            };
+            
+            let courseInfo = colors['জাভাস্ক্রিপ্ট'];
+            for (const [key, value] of Object.entries(colors)) {
+                if (course.includes(key)) {
+                    courseInfo = value;
+                    break;
+                }
+            }
+            
+            const card = document.createElement('div');
+            card.className = 'course-card';
+            card.innerHTML = `
+                <div class="course-header" style="background: ${courseInfo.bg}">
+                    <div class="course-category">${courseInfo.text}</div>
+                    <h3 class="course-title">${course}</h3>
+                    <p style="opacity: 0.9; font-size: 0.9rem;">এনরোল্ড: ${enrolledAt}</p>
+                </div>
+                <div class="course-body">
+                    <div class="course-meta">
+                        <span><i class="fas fa-clock"></i> ৪০ ঘন্টা</span>
+                        <span><i class="fas fa-chart-line"></i> ${progress}% কমপ্লিট</span>
+                    </div>
+                    
+                    <div class="progress-section">
+                        <div class="progress-label">
+                            <span>প্রগ্রেস</span>
+                            <span>${progress}%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${progress}%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="course-actions">
+                        <button class="action-btn continue" onclick="openCourse('${course}', ${index})">
+                            <i class="fas fa-play"></i> শেখা শুরু করুন
+                        </button>
+                        <button class="action-btn" onclick="viewCourseDetails('${course}', ${index})">
+                            <i class="fas fa-info-circle"></i> বিস্তারিত
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            return card;
+        }
+
+        // কোর্স ওপেন
+        function openCourse(courseName, index) {
+            // কোর্স কন্টেন্ট তৈরি
+            const courseContent = getCourseContent(courseName);
+            
+            // মডাল আপডেট
+            document.getElementById('modalCourseTitle').textContent = courseName;
+            document.getElementById('courseContent').innerHTML = courseContent;
+            
+            // Start Learning বাটন এনাবল
+            document.getElementById('startLearningBtn').onclick = function() {
+                startSpecificCourse(courseName, index);
+            };
+            
+            // মডাল শো
+            document.getElementById('courseModal').style.display = 'flex';
+            
+            // প্রগ্রেস আপডেট
+            updateProgress(index, 5);
+        }
+
+        // কোর্স কন্টেন্ট
+        function getCourseContent(courseName) {
+            const contents = {
+                'জাভাস্ক্রিপ্ট মাস্টারি কোর্স': `
+                    <div style="margin-bottom: 20px;">
+                        <h3 style="color: #2C3E50; margin-bottom: 10px;">কোর্স ওভারভিউ</h3>
+                        <p>এই কোর্সে আপনি শিখবেন:</p>
+                        <ul style="padding-left: 20px; margin: 10px 0;">
+                            <li>জাভাস্ক্রিপ্ট বেসিক থেকে এডভান্সড</li>
+                            <li>ES6+ ফিচারসমূহ</li>
+                            <li>DOM ম্যানিপুলেশন</li>
+                            <li>এসিঙ্ক্রোনাস জাভাস্ক্রিপ্ট</li>
+                            <li>API ইন্টিগ্রেশন</li>
+                            <li>রিয়েল-ওয়ার্ল্ড প্রোজেক্ট</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin: 25px 0;">
+                        <div style="background: #F8F9FA; padding: 15px; border-radius: 8px;">
+                            <h4 style="color: #2C3E50; margin-bottom: 10px;"><i class="fas fa-video"></i> ভিডিও লেকচার</h4>
+                            <p style="color: #7F8C8D;">৪০+ ভিডিও লেকচার</p>
+                        </div>
+                        <div style="background: #F8F9FA; padding: 15px; border-radius: 8px;">
+                            <h4 style="color: #2C3E50; margin-bottom: 10px;"><i class="fas fa-tasks"></i> এসাইনমেন্ট</h4>
+                            <p style="color: #7F8C8D;">১৫+ প্র্যাকটিক্যাল এসাইনমেন্ট</p>
+                        </div>
+                    </div>
+                    
+                    <h3 style="color: #2C3E50; margin: 25px 0 15px;">কোর্স মডিউলসমূহ</h3>
+                    <div style="background: #F8F9FA; padding: 20px; border-radius: 10px;">
+                        <div style="display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid #E8E8E8;">
+                            <span>১. জাভাস্ক্রিপ্ট বেসিকস</span>
+                            <span style="color: #27AE60;"><i class="fas fa-check-circle"></i> কমপ্লিটেড</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid #E8E8E8;">
+                            <span>২. DOM ম্যানিপুলেশন</span>
+                            <span style="color: #F39C12;"><i class="fas fa-play-circle"></i> ইন প্রগ্রেস</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding: 10px;">
+                            <span>৩. এডভান্সড জাভাস্ক্রিপ্ট</span>
+                            <span style="color: #BDC3C7;"><i class="fas fa-lock"></i> লকড</span>
+                        </div>
+                    </div>
+                `,
+                'Figma UI/UX ডিজাইন': `
+                    <div style="margin-bottom: 20px;">
+                        <h3 style="color: #2C3E50; margin-bottom: 10px;">কোর্স ওভারভিউ</h3>
+                        <p>এই কোর্সে আপনি শিখবেন:</p>
+                        <ul style="padding-left: 20px; margin: 10px 0;">
+                            <li>Figma টুলস এবং ইন্টারফেস</li>
+                            <li>UI/UX ডিজাইন প্রিন্সিপাল</li>
+                            <li>ওয়্যারফ্রেমিং এবং প্রোটোটাইপিং</li>
+                            <li>ডিজাইন সিস্টেম তৈরি</li>
+                            <li>কলাবরেশন এবং হ্যান্ডঅফ</li>
+                        </ul>
+                    </div>
+                `,
+                'SEO মাস্টারি': `
+                    <div style="margin-bottom: 20px;">
+                        <h3 style="color: #2C3E50; margin-bottom: 10px;">কোর্স ওভারভিউ</h3>
+                        <p>এই কোর্সে আপনি শিখবেন:</p>
+                        <ul style="padding-left: 20px; margin: 10px 0;">
+                            <li>SEO বেসিকস এবং ফান্ডামেন্টালস</li>
+                            <li>কীওয়ার্ড রিসার্চ</li>
+                            <li>অন-পেজ এবং অফ-পেজ SEO</li>
+                            <li>টেকনিকাল SEO</li>
+                            <li>লোকাল SEO</li>
+                        </ul>
+                    </div>
+                `
+            };
+            
+            return contents[courseName] || `
+                <div style="text-align: center; padding: 40px 20px;">
+                    <i class="fas fa-book" style="font-size: 4rem; color: #BDC3C7; margin-bottom: 20px;"></i>
+                    <h3 style="color: #2C3E50; margin-bottom: 10px;">কোর্স কন্টেন্ট</h3>
+                    <p style="color: #7F8C8D;">এই কোর্সের কন্টেন্ট শীঘ্রই আপডেট করা হবে।</p>
+                </div>
+            `;
+        }
+
+        // কোর্স ডিটেলস দেখান
+        function viewCourseDetails(courseName, index) {
+            const enrollments = JSON.parse(localStorage.getItem('enrollments') || '[]');
+            const enrollment = enrollments[index];
+            
+            let details = `
+                <div style="margin-bottom: 20px;">
+                    <h3 style="color: #2C3E50; margin-bottom: 10px;">কোর্স তথ্য</h3>
+                    <div style="background: #F8F9FA; padding: 20px; border-radius: 10px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                            <span style="font-weight: 600;">কোর্স:</span>
+                            <span>${courseName}</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                            <span style="font-weight: 600;">এনরোলমেন্ট তারিখ:</span>
+                            <span>${new Date(enrollment.enrolledAt).toLocaleDateString('bn-BD')}</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                            <span style="font-weight: 600;">পেমেন্ট:</span>
+                            <span>৳ ${enrollment.amount || 'N/A'}</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="font-weight: 600;">স্ট্যাটাস:</span>
+                            <span style="color: #27AE60; font-weight: 600;">${enrollment.status || 'এক্টিভ'}</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <h3 style="color: #2C3E50; margin: 25px 0 15px;">আপনার প্রগ্রেস</h3>
+                <div style="background: #F8F9FA; padding: 20px; border-radius: 10px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                        <span style="font-weight: 600;">কমপ্লিশন রেট:</span>
+                        <span>${enrollment.progress || 0}%</span>
+                    </div>
+                    <div style="height: 10px; background: #E8E8E8; border-radius: 5px; overflow: hidden;">
+                        <div style="width: ${enrollment.progress || 0}%; height: 100%; background: linear-gradient(45deg, #2E86C1, #27AE60); border-radius: 5px;"></div>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('modalCourseTitle').textContent = `${courseName} - বিস্তারিত`;
+            document.getElementById('courseContent').innerHTML = details;
+            
+            // Start Learning বাটন হাইড
+            document.getElementById('startLearningBtn').style.display = 'none';
+            
+            // মডাল শো
+            document.getElementById('courseModal').style.display = 'flex';
+        }
+
+        // কোর্স মডাল ক্লোজ
+        function closeCourseModal() {
+            document.getElementById('courseModal').style.display = 'none';
+        }
+
+        // নির্দিষ্ট কোর্স শুরু
+        function startSpecificCourse(courseName, index) {
+            alert(`শুরু করা হচ্ছে: ${courseName}`);
+            // এখানে আপনি কোর্স কন্টেন্ট পেজে রিডাইরেক্ট করতে পারেন
+            // window.location.href = `course-player.html?course=${encodeURIComponent(courseName)}&index=${index}`;
+            
+            // প্রগ্রেস আপডেট
+            updateProgress(index, 10);
+            closeCourseModal();
+        }
+
+        // প্রগ্রেস আপডেট
+        function updateProgress(index, increment) {
+            const enrollments = JSON.parse(localStorage.getItem('enrollments') || '[]');
+            if (enrollments[index]) {
+                enrollments[index].progress = Math.min((enrollments[index].progress || 0) + increment, 100);
+                localStorage.setItem('enrollments', JSON.stringify(enrollments));
+                loadMyCourses(); // UI রিফ্রেশ
+            }
+        }
+
+        // ইভেন্ট লিসেনার সেটআপ
+        function setupEventListeners() {
+            // সাইডবার মেনু
+            document.querySelectorAll('.menu-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // সব লিংক থেকে একটিভ ক্লাস সরান
+                    document.querySelectorAll('.menu-link').forEach(item => {
+                        item.classList.remove('active');
+                    });
+                    
+                    // ক্লিক করা লিংকে একটিভ ক্লাস যোগ
+                    this.classList.add('active');
+                    
+                    // সেকশন স্ক্রল
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetSection = document.getElementById(targetId);
+                    if (targetSection) {
+                        targetSection.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
+        }
+
+        // সাইডবার টগল (মোবাইলের জন্য)
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const toggleBtn = document.getElementById('menuToggle');
+            
+            sidebar.classList.toggle('active');
+            
+            if (sidebar.classList.contains('active')) {
+                toggleBtn.innerHTML = '<i class="fas fa-times"></i>';
+            } else {
+                toggleBtn.innerHTML = '<i class="fas fa-bars"></i>';
+            }
+        }
+
+        // লগ আউট
+        function logout() {
+            if (confirm('আপনি কি লগ আউট করতে চান?')) {
+                localStorage.removeItem('currentUser');
+                window.location.href = 'signin.html';
+            }
+        }
+
+        // URL থেকে কোর্স ডেটা চেক
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const newEnrollment = urlParams.get('newEnrollment');
+            
+            if (newEnrollment === 'true') {
+                // নতুন এনরোলমেন্ট লোড
+                loadMyCourses();
+                
+                // ওয়েলকাম মেসেজ
+                setTimeout(() => {
+                    alert('আপনার কোর্স সফলভাবে এনরোল হয়েছে! শেখা শুরু করুন।');
+                }, 500);
+            }
+        };
+    </script>
+</body>
+</html>
