@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>পেমেন্ট - Bangla Skill Hub</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* পেমেন্ট পেজের স্টাইল */
+        :root {
+            --bkash-color: #E2136E;
+            --bkash-light: #FCE4EC;
+            --nagad-color: #E42D2D;
+            --nagad-light: #FDEDED;
+            --success-color: #27AE60;
+            --error-color: #E74C3C;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Hind Siliguri', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* নেভিগেশন বার */
+        .navbar {
+            background: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            background: #2E86C1;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2C3E50;
+        }
+
+        .logo-text span {
+            color: #2E86C1;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: #2E86C1;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .back-btn:hover {
+            color: #2573a7;
+        }
+
+        /* পেমেন্ট কন্টেন্ট */
+        .payment-container {
+            flex: 1;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .payment-wrapper {
+            width: 100%;
+            max-width: 800px;
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 30px;
+        }
+
+        /* পেমেন্ট বক্স */
+        .payment-box {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .payment-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .payment-header h1 {
+            color: #2C3E50;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .course-info {
+            color: #7F8C8D;
+            font-size: 1.1rem;
+        }
+
+        /* পেমেন্ট অপশন */
+        .payment-options {
+            margin-bottom: 30px;
+        }
+
+        .payment-options h2 {
+            color: #2C3E50;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .payment-option {
+            border: 3px solid #E8E8E8;
+            border-radius: 10px;
+            padding: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            background: white;
+        }
+
+        .payment-option:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .payment-option.selected {
+            border-width: 3px;
+        }
+
+        /* bKash অপশন */
+        .bkash-option {
+            border-color: var(--bkash-color);
+            background: var(--bkash-light);
+        }
+
+        .bkash-option.selected {
+            border-color: var(--bkash-color);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(226, 19, 110, 0.1);
+        }
+
+        .bkash-logo {
+            color: var(--bkash-color);
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        /* Nagad অপশন */
+        .nagad-option {
+            border-color: var(--nagad-color);
+            background: var(--nagad-light);
+        }
+
+        .nagad-option.selected {
+            border-color: var(--nagad-color);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(228, 45, 45, 0.1);
+        }
+
+        .nagad-logo {
+            color: var(--nagad-color);
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .payment-option h3 {
+            color: #2C3E50;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .payment-option p {
+            color: #7F8C8D;
+            font-size: 0.9rem;
+        }
+
+        /* পেমেন্ট ফর্ম */
+        .payment-form {
+            margin-top: 30px;
+        }
+
+        .form-section {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        .form-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2C3E50;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #E8E8E8;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #2E86C1;
+        }
+
+        .form-group input.error {
+            border-color: var(--error-color);
+            background: #FDEDED;
+        }
+
+        .form-group input.success {
+            border-color: var(--success-color);
+            background: #EAFAF1;
+        }
+
+        .error-message {
+            color: var(--error-color);
+            font-size: 0.85rem;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .payment-instructions {
+            background: #F8F9FA;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .instructions-title {
+            color: #2C3E50;
+            margin-bottom: 10px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .instructions-list {
+            list-style: none;
+            padding-left: 5px;
+        }
+
+        .instructions-list li {
+            margin-bottom: 8px;
+            color: #5D6D7E;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .instructions-list li:before {
+            content: "•";
+            color: #2E86C1;
+            font-size: 1.2rem;
+        }
+
+        /* পেমেন্ট সামারি */
+        .payment-summary {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            height: fit-content;
+            position: sticky;
+            top: 30px;
+        }
+
+        .summary-header {
+            margin-bottom: 25px;
+        }
+
+        .summary-header h2 {
+            color: #2C3E50;
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+
+        .summary-total {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #2C3E50;
+            margin-top: 20px;
+        }
+
+        .summary-amount {
+            color: #2E86C1;
+            font-weight: 600;
+        }
+
+        .discount {
+            color: var(--success-color);
+        }
+
+        .original-price {
+            text-decoration: line-through;
+            color: #95A5A6;
+            font-size: 0.9rem;
+        }
+
+        .payment-button {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(45deg, #2E86C1, #27AE60);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .payment-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(46, 134, 193, 0.2);
+        }
+
+        .payment-button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .spinner {
+            display: none;
+            width: 25px;
+            height: 25px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* সাফল্য মডাল */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 50px;
+            border-radius: 15px;
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            animation: modalFadeIn 0.5s;
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .success-icon {
+            font-size: 4rem;
+            color: var(--success-color);
+            margin-bottom: 20px;
+        }
+
+        .modal-content h2 {
+            color: #2C3E50;
+            margin-bottom: 15px;
+        }
+
+        .modal-content p {
+            color: #7F8C8D;
+            margin-bottom: 25px;
+        }
+
+        .transaction-details {
+            background: #F8F9FA;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .transaction-details h3 {
+            color: #2C3E50;
+            margin-bottom: 10px;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        /* রেসপন্সিভ ডিজাইন */
+        @media (max-width: 900px) {
+            .payment-wrapper {
+                grid-template-columns: 1fr;
+                max-width: 600px;
+            }
+            
+            .payment-summary {
+                position: static;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-buttons {
+                flex-direction: column;
+            }
+            
+            .payment-box, .payment-summary {
+                padding: 25px 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .modal-content {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- নেভিগেশন -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <div class="logo-text">Bangla<span>Skill</span>Hub</div>
+            </a>
+            
+            <a href="course-list.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i> কোর্সে ফিরে যান
+            </a>
+        </div>
+    </nav>
+
+    <!-- পেমেন্ট কন্টেন্ট -->
+    <div class="payment-container">
+        <div class="payment-wrapper">
+            <!-- পেমেন্ট বক্স -->
+            <div class="payment-box">
+                <div class="payment-header">
+                    <h1>পেমেন্ট সম্পন্ন করুন</h1>
+                    <p class="course-info" id="courseName">জাভাস্ক্রিপ্ট মাস্টারি কোর্স</p>
+                </div>
+
+                <!-- পেমেন্ট অপশন -->
+                <div class="payment-options">
+                    <h2>পেমেন্ট মাধ্যম নির্বাচন করুন</h2>
+                    <div class="options-grid">
+                        <!-- bKash অপশন -->
+                        <div class="payment-option bkash-option selected" data-method="bkash" onclick="selectPaymentMethod('bkash')">
+                            <div class="bkash-logo">
+                                <i class="fas fa-mobile-alt"></i>
+                            </div>
+                            <h3>bKash</h3>
+                            <p>অনলাইন পেমেন্ট</p>
+                        </div>
+
+                        <!-- Nagad অপশন -->
+                        <div class="payment-option nagad-option" data-method="nagad" onclick="selectPaymentMethod('nagad')">
+                            <div class="nagad-logo">
+                                <i class="fas fa-wallet"></i>
+                            </div>
+                            <h3>Nagad</h3>
+                            <p>অনলাইন পেমেন্ট</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- bKash ফর্ম -->
+                <div class="payment-form">
+                    <div id="bkashForm" class="form-section active">
+                        <div class="form-group">
+                            <label for="bkashNumber">আপনার bKash নম্বর</label>
+                            <input type="text" id="bkashNumber" placeholder="০১৭XXXXXXXX" maxlength="11">
+                            <div class="error-message" id="bkashNumberError"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="bkashPin">bKash PIN</label>
+                            <input type="password" id="bkashPin" placeholder="৫ ডিজিটের PIN" maxlength="5">
+                            <div class="error-message" id="bkashPinError"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="bkashTrxID">ট্রানজেকশন আইডি (TrxID)</label>
+                            <input type="text" id="bkashTrxID" placeholder="TRX123456789" maxlength="15">
+                            <div class="error-message" id="bkashTrxIDError"></div>
+                        </div>
+
+                        <div class="payment-instructions">
+                            <div class="instructions-title">
+                                <i class="fas fa-info-circle"></i> bKash পেমেন্ট নির্দেশনা
+                            </div>
+                            <ul class="instructions-list">
+                                <li>bKash মোবাইল মেনুতে যান (Dial *247#)</li>
+                                <li>"Send Money" সিলেক্ট করুন</li>
+                                <li>নাম্বারে পেমেন্ট করুন: <strong id="merchantNumber">০১৭XX-XXXXXX</strong></li>
+                                <li>রেফারেন্স হিসেবে লিখুন: <strong id="paymentRef">BSH2024</strong></li>
+                                <li>PIN দিয়ে কনফার্ম করুন</li>
+                                <li>ট্রানজেকশন আইডি (TrxID) সংরক্ষণ করুন</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Nagad ফর্ম -->
+                    <div id="nagadForm" class="form-section">
+                        <div class="form-group">
+                            <label for="nagadNumber">আপনার Nagad নম্বর</label>
+                            <input type="text" id="nagadNumber" placeholder="০১৭XXXXXXXX" maxlength="11">
+                            <div class="error-message" id="nagadNumberError"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="nagadPin">Nagad PIN</label>
+                            <input type="password" id="nagadPin" placeholder="৫ ডিজিটের PIN" maxlength="5">
+                            <div class="error-message" id="nagadPinError"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="nagadTrxID">ট্রানজেকশন আইডি</label>
+                            <input type="text" id="nagadTrxID" placeholder="NID123456789" maxlength="15">
+                            <div class="error-message" id="nagadTrxIDError"></div>
+                        </div>
+
+                        <div class="payment-instructions">
+                            <div class="instructions-title">
+                                <i class="fas fa-info-circle"></i> Nagad পেমেন্ট নির্দেশনা
+                            </div>
+                            <ul class="instructions-list">
+                                <li>Nagad মোবাইল মেনুতে যান (Dial *167#)</li>
+                                <li>"Send Money" সিলেক্ট করুন</li>
+                                <li>নাম্বারে পেমেন্ট করুন: <strong id="nagadMerchant">০১৭XX-XXXXXX</strong></li>
+                                <li>রেফারেন্স হিসেবে লিখুন: <strong id="nagadRef">BSH2024</strong></li>
+                                <li>PIN দিয়ে কনফার্ম করুন</li>
+                                <li>ট্রানজেকশন আইডি সংরক্ষণ করুন</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- পেমেন্ট সামারি -->
+            <div class="payment-summary">
+                <div class="summary-header">
+                    <h2>পেমেন্ট সারাংশ</h2>
+                    <p id="summaryCourse">জাভাস্ক্রিপ্ট মাস্টারি কোর্স</p>
+                </div>
+
+                <div class="summary-item">
+                    <span>কোর্স মূল্য:</span>
+                    <span class="summary-amount">৳ <span id="originalPrice">৩,৯৯৯</span></span>
+                </div>
+
+                <div class="summary-item">
+                    <span>ডিসকাউন্ট:</span>
+                    <span class="summary-amount discount">-৳ <span id="discountAmount">২,০০০</span></span>
+                </div>
+
+                <div class="summary-item">
+                    <span>ভ্যাট (১৫%):</span>
+                    <span class="summary-amount">৳ <span id="vatAmount">৩০০</span></span>
+                </div>
+
+                <div class="summary-item summary-total">
+                    <span>মোট পরিশোধ:</span>
+                    <span class="summary-amount">৳ <span id="totalAmount">২,২৯৯</span></span>
+                </div>
+
+                <button class="payment-button" id="payNowBtn" onclick="processPayment()">
+                    <span id="payNowText">এখনই পেমেন্ট করুন</span>
+                    <div class="spinner" id="paymentSpinner"></div>
+                </button>
+
+                <p style="text-align: center; margin-top: 15px; color: #7F8C8D; font-size: 0.9rem;">
+                    <i class="fas fa-lock"></i> আপনার তথ্য নিরাপদে সংরক্ষণ করা হবে
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- সাফল্য মডাল -->
+    <div class="modal" id="successModal">
+        <div class="modal-content">
+            <div class="success-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h2>পেমেন্ট সফল!</h2>
+            <p>ধন্যবাদ! আপনার পেমেন্ট সফলভাবে সম্পন্ন হয়েছে।</p>
+            
+            <div class="transaction-details">
+                <h3>ট্রানজেকশন বিস্তারিত</h3>
+                <div class="detail-row">
+                    <span>অর্ডার আইডি:</span>
+                    <span id="modalOrderId">BSH-2024-00123</span>
+                </div>
+                <div class="detail-row">
+                    <span>কোর্স:</span>
+                    <span id="modalCourseName">জাভাস্ক্রিপ্ট মাস্টারি</span>
+                </div>
+                <div class="detail-row">
+                    <span>পরিমাণ:</span>
+                    <span id="modalAmount">৳ ২,২৯৯</span>
+                </div>
+                <div class="detail-row">
+                    <span>পদ্ধতি:</span>
+                    <span id="modalMethod">bKash</span>
+                </div>
+                <div class="detail-row">
+                    <span>তারিখ:</span>
+                    <span id="modalDate">২৮ জানুয়ারি, ২০২৪</span>
+                </div>
+            </div>
+
+            <div class="modal-buttons">
+                <button class="payment-button" onclick="goToDashboard()">
+                    <i class="fas fa-tachometer-alt"></i> ড্যাশবোর্ডে যান
+                </button>
+                <button onclick="printReceipt()" style="padding: 15px 30px; border: 2px solid #2E86C1; background: white; color: #2E86C1; border-radius: 8px; cursor: pointer;">
+                    <i class="fas fa-print"></i> রিসিট প্রিন্ট করুন
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // কোর্স তথ্য
+        let selectedCourse = JSON.parse(localStorage.getItem('selectedCourse')) || {
+            name: 'জাভাস্ক্রিপ্ট মাস্টারি কোর্স',
+            price: 1999,
+            originalPrice: 3999,
+            discount: 2000,
+            vat: 300,
+            total: 2299
+        };
+
+        // পেমেন্ট মেথড
+        let selectedMethod = 'bkash';
+
+        // পেজ লোড
+        document.addEventListener('DOMContentLoaded', function() {
+            // কোর্স তথ্য দেখান
+            document.getElementById('courseName').textContent = selectedCourse.name;
+            document.getElementById('summaryCourse').textContent = selectedCourse.name;
+            document.getElementById('originalPrice').textContent = selectedCourse.originalPrice.toLocaleString();
+            document.getElementById('discountAmount').textContent = selectedCourse.discount.toLocaleString();
+            document.getElementById('vatAmount').textContent = selectedCourse.vat.toLocaleString();
+            document.getElementById('totalAmount').textContent = selectedCourse.total.toLocaleString();
+
+            // রেফারেন্স নম্বর জেনারেট
+            const refNumber = 'BSH' + Date.now().toString().slice(-8);
+            document.getElementById('paymentRef').textContent = refNumber;
+            document.getElementById('nagadRef').textContent = refNumber;
+
+            // bKash সিলেক্ট করা থাকুক
+            selectPaymentMethod('bkash');
+
+            // রিয়েল-টাইম ভ্যালিডেশন
+            setupRealTimeValidation();
+        });
+
+        // পেমেন্ট মেথড সিলেক্ট
+        function selectPaymentMethod(method) {
+            selectedMethod = method;
+            
+            // সব অপশন থেকে সিলেক্টেড ক্লাস সরান
+            document.querySelectorAll('.payment-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // নির্বাচিত অপশন সিলেক্ট করুন
+            document.querySelector(`.payment-option[data-method="${method}"]`).classList.add('selected');
+            
+            // সংশ্লিষ্ট ফর্ম দেখান
+            document.querySelectorAll('.form-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(`${method}Form`).classList.add('active');
+            
+            // মডালে মেথড আপডেট
+            document.getElementById('modalMethod').textContent = method === 'bkash' ? 'bKash' : 'Nagad';
+        }
+
+        // রিয়েল-টাইম ভ্যালিডেশন সেটআপ
+        function setupRealTimeValidation() {
+            // bKash নম্বর ভ্যালিডেশন
+            document.getElementById('bkashNumber').addEventListener('input', function() {
+                validateBkashNumber(this.value);
+            });
+
+            // bKash PIN ভ্যালিডেশন
+            document.getElementById('bkashPin').addEventListener('input', function() {
+                validateBkashPin(this.value);
+            });
+
+            // bKash TrxID ভ্যালিডেশন
+            document.getElementById('bkashTrxID').addEventListener('input', function() {
+                validateTrxID(this.value, 'bkash');
+            });
+
+            // Nagad নম্বর ভ্যালিডেশন
+            document.getElementById('nagadNumber').addEventListener('input', function() {
+                validateNagadNumber(this.value);
+            });
+
+            // Nagad PIN ভ্যালিডেশন
+            document.getElementById('nagadPin').addEventListener('input', function() {
+                validateNagadPin(this.value);
+            });
+
+            // Nagad TrxID ভ্যালিডেশন
+            document.getElementById('nagadTrxID').addEventListener('input', function() {
+                validateTrxID(this.value, 'nagad');
+            });
+        }
+
+        // bKash নম্বর ভ্যালিডেশন
+        function validateBkashNumber(number) {
+            const errorElement = document.getElementById('bkashNumberError');
+            const inputElement = document.getElementById('bkashNumber');
+            
+            // ১১ ডিজিট চেক
+            if (number.length !== 11) {
+                showError(inputElement, errorElement, 'বৈধ bKash নম্বর দিন (১১ ডিজিট)');
+                return false;
+            }
+            
+            // শুরু 01 দিয়ে হতে হবে
+            if (!number.startsWith('01')) {
+                showError(inputElement, errorElement, 'নম্বরটি 01 দিয়ে শুরু হতে হবে');
+                return false;
+            }
+            
+            // শুধু সংখ্যা চেক
+            if (!/^\d+$/.test(number)) {
+                showError(inputElement, errorElement, 'শুধুমাত্র সংখ্যা দিন');
+                return false;
+            }
+            
+            showSuccess(inputElement, errorElement);
+            return true;
+        }
+
+        // bKash PIN ভ্যালিডেশন
+        function validateBkashPin(pin) {
+            const errorElement = document.getElementById('bkashPinError');
+            const inputElement = document.getElementById('bkashPin');
+            
+            // ৫ ডিজিট চেক
+            if (pin.length !== 5) {
+                showError(inputElement, errorElement, 'বৈধ PIN দিন (৫ ডিজিট)');
+                return false;
+            }
+            
+            // শুধু সংখ্যা চেক
+            if (!/^\d+$/.test(pin)) {
+                showError(inputElement, errorElement, 'শুধুমাত্র সংখ্যা দিন');
+                return false;
+            }
+            
+            showSuccess(inputElement, errorElement);
+            return true;
+        }
+
+        // Nagad নম্বর ভ্যালিডেশন
+        function validateNagadNumber(number) {
+            const errorElement = document.getElementById('nagadNumberError');
+            const inputElement = document.getElementById('nagadNumber');
+            
+            // ১১ ডিজিট চেক
+            if (number.length !== 11) {
+                showError(inputElement, errorElement, 'বৈধ Nagad নম্বর দিন (১১ ডিজিট)');
+                return false;
+            }
+            
+            // শুরু 01 দিয়ে হতে হবে
+            if (!number.startsWith('01')) {
+                showError(inputElement, errorElement, 'নম্বরটি 01 দিয়ে শুরু হতে হবে');
+                return false;
+            }
+            
+            // শুধু সংখ্যা চেক
+            if (!/^\d+$/.test(number)) {
+                showError(inputElement, errorElement, 'শুধুমাত্র সংখ্যা দিন');
+                return false;
+            }
+            
+            showSuccess(inputElement, errorElement);
+            return true;
+        }
+
+        // Nagad PIN ভ্যালিডেশন
+        function validateNagadPin(pin) {
+            const errorElement = document.getElementById('nagadPinError');
+            const inputElement = document.getElementById('nagadPin');
+            
+            // ৫ ডিজিট চেক
+            if (pin.length !== 5) {
+                showError(inputElement, errorElement, 'বৈধ PIN দিন (৫ ডিজিট)');
+                return false;
+            }
+            
+            // শুধু সংখ্যা চেক
+            if (!/^\d+$/.test(pin)) {
+                showError(inputElement, errorElement, 'শুধুমাত্র সংখ্যা দিন');
+                return false;
+            }
+            
+            showSuccess(inputElement, errorElement);
+            return true;
+        }
+
+        // TrxID ভ্যালিডেশন
+        function validateTrxID(trxId, method) {
+            const errorElement = document.getElementById(`${method}TrxIDError`);
+            const inputElement = document.getElementById(`${method}TrxID`);
+            
+            // কমপক্ষে ৮ ডিজিট চেক
+            if (trxId.length < 8) {
+                showError(inputElement, errorElement, 'ট্রানজেকশন আইডি কমপক্ষে ৮ অক্ষর হতে হবে');
+                return false;
+            }
+            
+            // শুধু অক্ষর ও সংখ্যা চেক
+            if (!/^[A-Za-z0-9]+$/.test(trxId)) {
+                showError(inputElement, errorElement, 'শুধুমাত্র অক্ষর ও সংখ্যা দিন');
+                return false;
+            }
+            
+            showSuccess(inputElement, errorElement);
+            return true;
+        }
+
+        // এরর শো
+        function showError(inputElement, errorElement, message) {
+            inputElement.classList.remove('success');
+            inputElement.classList.add('error');
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+        }
+
+        // সাকসেস শো
+        function showSuccess(inputElement, errorElement) {
+            inputElement.classList.remove('error');
+            inputElement.classList.add('success');
+            errorElement.style.display = 'none';
+        }
+
+        // পেমেন্ট প্রসেস
+        function processPayment() {
+            // ভ্যালিডেশন চেক
+            let isValid = true;
+            
+            if (selectedMethod === 'bkash') {
+                isValid = validateBkashNumber(document.getElementById('bkashNumber').value) &&
+                         validateBkashPin(document.getElementById('bkashPin').value) &&
+                         validateTrxID(document.getElementById('bkashTrxID').value, 'bkash');
+            } else {
+                isValid = validateNagadNumber(document.getElementById('nagadNumber').value) &&
+                         validateNagadPin(document.getElementById('nagadPin').value) &&
+                         validateTrxID(document.getElementById('nagadTrxID').value, 'nagad');
+            }
+            
+            if (!isValid) {
+                alert('দয়া করে সব তথ্য সঠিকভাবে দিন');
+                return;
+            }
+            
+            // লোডিং স্টেট
+            const payNowBtn = document.getElementById('payNowBtn');
+            const payNowText = document.getElementById('payNowText');
+            const spinner = document.getElementById('paymentSpinner');
+            
+            payNowBtn.disabled = true;
+            payNowText.textContent = 'পেমেন্ট প্রক্রিয়াধীন...';
+            spinner.style.display = 'block';
+            
+            // সিমুলেটেড পেমেন্ট প্রসেসিং (২ সেকেন্ড)
+            setTimeout(() => {
+                // পেমেন্ট ডেটা সেভ
+                const paymentData = {
+                    orderId: 'BSH-' + Date.now().toString().slice(-6),
+                    course: selectedCourse.name,
+                    amount: selectedCourse.total,
+                    method: selectedMethod,
+                    date: new Date().toLocaleDateString('bn-BD'),
+                    time: new Date().toLocaleTimeString('bn-BD'),
+                    status: 'completed'
+                };
+                
+                // লোকালস্টোরেজে সেভ
+                localStorage.setItem('lastPayment', JSON.stringify(paymentData));
+                
+                // কোর্স এনরোলমেন্ট সেভ
+                const enrollments = JSON.parse(localStorage.getItem('enrollments') || '[]');
+                enrollments.push({
+                    ...paymentData,
+                    enrolledAt: new Date().toISOString(),
+                    progress: 0,
+                    status: 'active'
+                });
+                localStorage.setItem('enrollments', JSON.stringify(enrollments));
+                
+                // সাফল্য মডাল শো
+                showSuccessModal(paymentData);
+                
+                // বাটন রিসেট
+                payNowBtn.disabled = false;
+                payNowText.textContent = 'এখনই পেমেন্ট করুন';
+                spinner.style.display = 'none';
+            }, 2000);
+        }
+
+        // সাফল্য মডাল শো
+        function showSuccessModal(paymentData) {
+            // মডাল কন্টেন্ট আপডেট
+            document.getElementById('modalOrderId').textContent = paymentData.orderId;
+            document.getElementById('modalCourseName').textContent = paymentData.course;
+            document.getElementById('modalAmount').textContent = `৳ ${paymentData.amount.toLocaleString()}`;
+            document.getElementById('modalMethod').textContent = paymentData.method === 'bkash' ? 'bKash' : 'Nagad';
+            document.getElementById('modalDate').textContent = paymentData.date;
+            
+            // মডাল শো
+            document.getElementById('successModal').classList.add('active');
+        }
+
+        // ড্যাশবোর্ডে যান
+        function goToDashboard() {
+            window.location.href = 'dashboard.html';
+        }
+
+        // রিসিট প্রিন্ট
+        function printReceipt() {
+            const paymentData = JSON.parse(localStorage.getItem('lastPayment') || '{}');
+            
+            const receiptContent = `
+                <html>
+                <head>
+                    <title>পেমেন্ট রিসিট</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; padding: 20px; max-width: 400px; margin: 0 auto; }
+                        h2 { color: #2E86C1; text-align: center; }
+                        hr { border: none; border-top: 2px solid #2E86C1; margin: 20px 0; }
+                        .detail { display: flex; justify-content: space-between; margin: 10px 0; }
+                        .total { font-weight: bold; font-size: 1.2rem; margin-top: 20px; }
+                        .thank-you { text-align: center; margin-top: 30px; color: #27AE60; }
+                    </style>
+                </head>
+                <body>
+                    <h2>Bangla Skill Hub</h2>
+                    <p style="text-align: center;">পেমেন্ট রিসিট</p>
+                    <hr>
+                    <div class="detail">
+                        <span>অর্ডার আইডি:</span>
+                        <span>${paymentData.orderId || 'N/A'}</span>
+                    </div>
+                    <div class="detail">
+                        <span>কোর্স:</span>
+                        <span>${paymentData.course || 'N/A'}</span>
+                    </div>
+                    <div class="detail">
+                        <span>পেমেন্ট পদ্ধতি:</span>
+                        <span>${paymentData.method || 'N/A'}</span>
+                    </div>
+                    <div class="detail">
+                        <span>পরিমাণ:</span>
+                        <span>৳${paymentData.amount || '0'}</span>
+                    </div>
+                    <div class="detail">
+                        <span>তারিখ:</span>
+                        <span>${paymentData.date || 'N/A'}</span>
+                    </div>
+                    <div class="detail">
+                        <span>সময়:</span>
+                        <span>${paymentData.time || 'N/A'}</span>
+                    </div>
+                    <div class="detail total">
+                        <span>মোট পরিশোধ:</span>
+                        <span>৳${paymentData.amount || '0'}</span>
+                    </div>
+                    <hr>
+                    <div class="thank-you">
+                        <p>ধন্যবাদ!</p>
+                        <p>www.banglaskillhub.com</p>
+                    </div>
+                </body>
+                </html>
+            `;
+            
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(receiptContent);
+            printWindow.document.close();
+            printWindow.print();
+        }
+
+        // URL থেকে কোর্স ডেটা লোড
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const courseId = urlParams.get('course');
+            
+            if (courseId) {
+                // কোর্স ডেটা লোড করুন (লোকালস্টোরেজ বা API থেকে)
+                const courses = JSON.parse(localStorage.getItem('courses') || '[]');
+                const course = courses.find(c => c.id === courseId);
+                
+                if (course) {
+                    selectedCourse = {
+                        name: course.name,
+                        price: course.price,
+                        originalPrice: course.originalPrice,
+                        discount: course.originalPrice - course.price,
+                        vat: Math.round(course.price * 0.15),
+                        total: Math.round(course.price * 1.15)
+                    };
+                    
+                    // UI আপডেট
+                    document.getElementById('courseName').textContent = selectedCourse.name;
+                    document.getElementById('summaryCourse').textContent = selectedCourse.name;
+                    document.getElementById('originalPrice').textContent = selectedCourse.originalPrice.toLocaleString();
+                    document.getElementById('discountAmount').textContent = selectedCourse.discount.toLocaleString();
+                    document.getElementById('vatAmount').textContent = selectedCourse.vat.toLocaleString();
+                    document.getElementById('totalAmount').textContent = selectedCourse.total.toLocaleString();
+                    
+                    // লোকালস্টোরেজে সেভ
+                    localStorage.setItem('selectedCourse', JSON.stringify(selectedCourse));
+                }
+            }
+        };
+    </script>
+</body>
+</html>
