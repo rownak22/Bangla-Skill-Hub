@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>লগ ইন - Bangla Skill Hub</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* লগইন পেজের স্টাইল */
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 20px;
+        }
+
+        .auth-box {
+            background: white;
+            border-radius: 15px;
+            box-shadow: var(--shadow-lg);
+            width: 100%;
+            max-width: 450px;
+            overflow: hidden;
+        }
+
+        .auth-header {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .auth-header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+
+        .auth-body {
+            padding: 40px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .input-with-icon {
+            position: relative;
+        }
+
+        .input-with-icon i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+            z-index: 1;
+        }
+
+        .input-with-icon input {
+            width: 100%;
+            padding: 15px 15px 15px 45px;
+            border: 2px solid var(--light-gray);
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: var(--transition);
+            position: relative;
+            background: transparent;
+        }
+
+        .input-with-icon input:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(46, 134, 193, 0.1);
+        }
+
+        .error-input {
+            border-color: var(--accent) !important;
+            background-color: #FDEDED !important;
+        }
+
+        .success-input {
+            border-color: var(--secondary) !important;
+            background-color: #EAFAF1 !important;
+        }
+
+        .error-message {
+            color: var(--accent);
+            font-size: 0.85rem;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .show-password {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--gray);
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        .auth-footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid var(--light-gray);
+        }
+
+        .auth-footer a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .auth-footer a:hover {
+            text-decoration: underline;
+        }
+
+        .alert {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 8px;
+            color: white;
+            z-index: 10000;
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+            max-width: 400px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .alert.show {
+            transform: translateX(0);
+        }
+
+        .alert-success {
+            background: var(--secondary);
+        }
+
+        .alert-error {
+            background: var(--accent);
+        }
+
+        .alert-info {
+            background: var(--primary);
+        }
+
+        .alert-close {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 1.2rem;
+            line-height: 1;
+        }
+
+        /* লোডিং স্পিনার */
+        .spinner {
+            display: none;
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* পাসওয়ার্ড স্ট্রেন্থ */
+        .password-strength {
+            height: 5px;
+            background: var(--light-gray);
+            border-radius: 3px;
+            margin-top: 5px;
+            overflow: hidden;
+        }
+
+        .strength-fill {
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s;
+            border-radius: 3px;
+        }
+
+        .strength-weak {
+            background: #E74C3C;
+            width: 33%;
+        }
+
+        .strength-medium {
+            background: #F39C12;
+            width: 66%;
+        }
+
+        .strength-strong {
+            background: #27AE60;
+            width: 100%;
+        }
+
+        /* রেসপন্সিভ */
+        @media (max-width: 576px) {
+            .auth-body {
+                padding: 30px 20px;
+            }
+            
+            .auth-header {
+                padding: 30px 20px;
+            }
+            
+            .auth-header h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- নেভিগেশন -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <div class="logo-text">Bangla<span>Skill</span>Hub</div>
+            </a>
+            
+            <div class="auth-buttons">
+                <a href="index.html" class="btn btn-outline">হোম</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- লগইন ফর্ম -->
+    <div class="auth-container">
+        <div class="auth-box">
+            <div class="auth-header">
+                <h1>লগ ইন করুন</h1>
+                <p>আপনার অ্যাকাউন্টে প্রবেশ করুন</p>
+            </div>
+            
+            <div class="auth-body">
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="loginEmail">ইমেইল ঠিকানা</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" id="loginEmail" name="email" placeholder="আপনার ইমেইল" required>
+                        </div>
+                        <div class="error-message" id="emailError"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="loginPassword">পাসওয়ার্ড</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="loginPassword" name="password" placeholder="আপনার পাসওয়ার্ড" required>
+                            <button type="button" class="show-password" onclick="togglePassword('loginPassword', this)">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <div class="error-message" id="passwordError"></div>
+                    </div>
+                    
+                    <div class="form-group" style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <input type="checkbox" id="rememberMe" name="remember">
+                            <label for="rememberMe" style="font-weight: normal; display: inline; margin-left: 5px;">
+                                আমাকে মনে রাখুন
+                            </label>
+                        </div>
+                        <a href="#" style="color: var(--primary); text-decoration: none;">
+                            পাসওয়ার্ড ভুলে গেছেন?
+                        </a>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary" style="width: 100%; padding: 15px; font-size: 1.1rem;">
+                        লগ ইন করুন
+                    </button>
+                    
+                    <div id="loginSpinner" class="spinner" style="margin-top: 20px;"></div>
+                </form>
+                
+                <div class="auth-footer">
+                    <p>অ্যাকাউন্ট নেই? <a href="signup.html">এখনই সাইন আপ করুন</a></p>
+                    <p style="margin-top: 15px;">
+                        <a href="index.html">
+                            <i class="fas fa-arrow-left"></i> হোমপেজে ফিরে যান
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // পাসওয়ার্ড শো/হাইড
+        function togglePassword(inputId, button) {
+            const input = document.getElementById(inputId);
+            const icon = button.querySelector('i');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        // ফর্ম ভ্যালিডেশন
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value.trim();
+            
+            // ভ্যালিডেশন
+            let isValid = true;
+            
+            // ইমেইল ভ্যালিডেশন
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!email) {
+                document.getElementById('emailError').textContent = 'ইমেইল প্রয়োজন';
+                document.getElementById('emailError').style.display = 'block';
+                document.getElementById('loginEmail').classList.add('error-input');
+                isValid = false;
+            } else if (!emailRegex.test(email)) {
+                document.getElementById('emailError').textContent = 'বৈধ ইমেইল দিন';
+                document.getElementById('emailError').style.display = 'block';
+                document.getElementById('loginEmail').classList.add('error-input');
+                isValid = false;
+            } else {
+                document.getElementById('emailError').style.display = 'none';
+                document.getElementById('loginEmail').classList.remove('error-input');
+                document.getElementById('loginEmail').classList.add('success-input');
+            }
+            
+            // পাসওয়ার্ড ভ্যালিডেশন
+            if (!password) {
+                document.getElementById('passwordError').textContent = 'পাসওয়ার্ড প্রয়োজন';
+                document.getElementById('passwordError').style.display = 'block';
+                document.getElementById('loginPassword').classList.add('error-input');
+                isValid = false;
+            } else if (password.length < 6) {
+                document.getElementById('passwordError').textContent = 'পাসওয়ার্ড কমপক্ষে ৬ অক্ষর হতে হবে';
+                document.getElementById('passwordError').style.display = 'block';
+                document.getElementById('loginPassword').classList.add('error-input');
+                isValid = false;
+            } else {
+                document.getElementById('passwordError').style.display = 'none';
+                document.getElementById('loginPassword').classList.remove('error-input');
+                document.getElementById('loginPassword').classList.add('success-input');
+            }
+            
+            if (!isValid) return;
+            
+            // লোডিং স্পিনার দেখান
+            const spinner = document.getElementById('loginSpinner');
+            spinner.style.display = 'block';
+            
+            try {
+                // UserManager ক্লাস ব্যবহার করে লগইন
+                const user = await UserManager.login(email, password);
+                
+                if (user) {
+                    // সফল লগইন
+                    showAlert('লগইন সফল! ড্যাশবোর্ডে নিয়ে যাচ্ছি...', 'success');
+                    
+                    // ২ সেকেন্ড পর ড্যাশবোর্ডে রিডাইরেক্ট
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.html';
+                    }, 2000);
+                }
+            } catch (error) {
+                showAlert('লগইনে সমস্যা হয়েছে', 'error');
+            } finally {
+                spinner.style.display = 'none';
+            }
+        });
+
+        // রিয়েল-টাইম ভ্যালিডেশন
+        document.getElementById('loginEmail').addEventListener('blur', function() {
+            const email = this.value.trim();
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            
+            if (!email) {
+                document.getElementById('emailError').textContent = 'ইমেইল প্রয়োজন';
+                document.getElementById('emailError').style.display = 'block';
+                this.classList.add('error-input');
+            } else if (!emailRegex.test(email)) {
+                document.getElementById('emailError').textContent = 'বৈধ ইমেইল দিন';
+                document.getElementById('emailError').style.display = 'block';
+                this.classList.add('error-input');
+            } else {
+                document.getElementById('emailError').style.display = 'none';
+                this.classList.remove('error-input');
+                this.classList.add('success-input');
+            }
+        });
+
+        document.getElementById('loginPassword').addEventListener('blur', function() {
+            const password = this.value.trim();
+            
+            if (!password) {
+                document.getElementById('passwordError').textContent = 'পাসওয়ার্ড প্রয়োজন';
+                document.getElementById('passwordError').style.display = 'block';
+                this.classList.add('error-input');
+            } else if (password.length < 6) {
+                document.getElementById('passwordError').textContent = 'পাসওয়ার্ড কমপক্ষে ৬ অক্ষর হতে হবে';
+                document.getElementById('passwordError').style.display = 'block';
+                this.classList.add('error-input');
+            } else {
+                document.getElementById('passwordError').style.display = 'none';
+                this.classList.remove('error-input');
+                this.classList.add('success-input');
+            }
+        });
+
+        // শো এলার্ট ফাংশন
+        function showAlert(message, type = 'info') {
+            const alertBox = document.createElement('div');
+            alertBox.className = `alert alert-${type}`;
+            alertBox.innerHTML = `
+                ${message}
+                <span class="alert-close">&times;</span>
+            `;
+            
+            document.body.appendChild(alertBox);
+            
+            setTimeout(() => {
+                alertBox.classList.add('show');
+            }, 10);
+            
+            alertBox.querySelector('.alert-close').addEventListener('click', () => {
+                alertBox.classList.remove('show');
+                setTimeout(() => {
+                    alertBox.remove();
+                }, 300);
+            });
+            
+            setTimeout(() => {
+                if (alertBox.parentNode) {
+                    alertBox.classList.remove('show');
+                    setTimeout(() => {
+                        alertBox.remove();
+                    }, 300);
+                }
+            }, 5000);
+        }
+
+        // আগের সেশন থেকে কোনো মেসেজ থাকলে দেখানো
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const message = urlParams.get('message');
+            const messageType = urlParams.get('type');
+            
+            if (message) {
+                showAlert(decodeURIComponent(message), messageType || 'info');
+            }
+        };
+    </script>
+</body>
+</html>
