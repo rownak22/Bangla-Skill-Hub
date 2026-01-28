@@ -1,73 +1,41 @@
-// ফিল্টার ফাংশন যোগ করুন
-function filterCourses() {
-    const category = document.getElementById('categoryFilter').value;
-    const level = document.getElementById('levelFilter').value;
-    const maxPrice = parseInt(document.getElementById('priceFilter').value);
-    const sortBy = document.getElementById('sortFilter').value;
+<div class="course-card">
+    <!-- কোর্স কন্টেন্ট -->
     
-    const courses = document.querySelectorAll('.course-card');
+    <button class="enroll-btn" onclick="enrollCourse('javascript-course')">
+        <i class="fas fa-shopping-cart"></i>
+        <span>এনরোল করুন</span>
+        <div class="btn-details" style="font-size: 0.8rem; margin-top: 5px;">
+            <span>💰 ৳1,999</span> | 
+            <span>⏱️ ৪০ ঘণ্টা</span> | 
+            <span>⭐ ৪.৮ রেটিং</span>
+        </div>
+    </button>
+</div>
+
+<script>
+function enrollCourse(courseId) {
+    alert('কোর্স এনরোল করছি...');
     
-    let visibleCourses = 0;
-    
-    courses.forEach(course => {
-        const courseCategory = course.dataset.category;
-        const coursePrice = parseInt(course.querySelector('.course-price').textContent.replace(/[^\d]/g, ''));
-        
-        let show = true;
-        
-        // ক্যাটেগরি ফিল্টার
-        if (category !== 'all' && courseCategory !== category) {
-            show = false;
+    const courses = {
+        'javascript-course': {
+            name: 'জাভাস্ক্রিপ্ট মাস্টারি',
+            price: 1999,
+            duration: '৪০ ঘণ্টা'
+        },
+        'figma-course': {
+            name: 'Figma UI/UX ডিজাইন',
+            price: 1499,
+            duration: '৩৫ ঘণ্টা'
         }
-        
-        // প্রাইস ফিল্টার
-        if (coursePrice > maxPrice) {
-            show = false;
-        }
-        
-        // শো/হাইড
-        if (show) {
-            course.style.display = 'block';
-            visibleCourses++;
-        } else {
-            course.style.display = 'none';
-        }
-    });
+    };
     
-    // কোনো কোর্স না পাওয়া গেলে
-    if (visibleCourses === 0) {
-        document.getElementById('courseGrid').innerHTML += `
-            <div style="grid-column: 1/-1; text-align: center; padding: 50px;">
-                <i class="fas fa-search" style="font-size: 3rem; color: #BDC3C7;"></i>
-                <h3 style="color: #2C3E50; margin-top: 20px;">কোনো কোর্স পাওয়া যায়নি</h3>
-                <button onclick="resetFilters()" style="margin-top: 20px; padding: 10px 20px; background: #2E86C1; color: white; border: none; border-radius: 5px; cursor: pointer;">
-                    ফিল্টার রিসেট করুন
-                </button>
-            </div>
-        `;
+    const course = courses[courseId];
+    if (course) {
+        // লোকালস্টোরেজে সেভ
+        localStorage.setItem('selectedCourse', JSON.stringify(course));
+        
+        // পেমেন্ট পেজে যান
+        window.location.href = 'payment.html';
     }
 }
-
-function resetFilters() {
-    document.getElementById('categoryFilter').value = 'all';
-    document.getElementById('priceFilter').value = 20000;
-    document.getElementById('priceValue').textContent = '৳২০,০০০';
-    document.getElementById('levelFilter').value = 'all';
-    document.getElementById('sortFilter').value = 'popular';
-    
-    // সব কোর্স দেখান
-    document.querySelectorAll('.course-card').forEach(course => {
-        course.style.display = 'block';
-    });
-}
-
-// ইভেন্ট লিসেনার যোগ
-document.getElementById('priceFilter').addEventListener('input', function() {
-    const price = this.value;
-    document.getElementById('priceValue').textContent = '৳' + parseInt(price).toLocaleString();
-    filterCourses();
-});
-
-document.getElementById('categoryFilter').addEventListener('change', filterCourses);
-document.getElementById('levelFilter').addEventListener('change', filterCourses);
-document.getElementById('sortFilter').addEventListener('change', filterCourses);
+</script>
